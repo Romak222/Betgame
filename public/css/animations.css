@@ -1,0 +1,21 @@
+.glow{
+
+animation:glow 1s infinite alternate;
+
+}
+
+@keyframes glow{
+
+from{
+
+box-shadow:0 0 10px rgba(37,99,235,.3);
+
+}
+
+to{
+
+box-shadow:0 0 25px rgba(37,99,235,.8);
+
+}
+
+}
