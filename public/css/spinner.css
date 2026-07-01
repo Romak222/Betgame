@@ -401,3 +401,19 @@
         width:min(82vw,420px);
     }
 }
+
+.winner-number{
+    animation:winnerPulse .8s infinite alternate;
+    border-color:#ff0000 !important;
+}
+
+@keyframes winnerPulse{
+    from{
+        transform:scale(1);
+        box-shadow:0 0 6px rgba(255,0,0,.4);
+    }
+    to{
+        transform:scale(1.08);
+        box-shadow:0 0 18px rgba(255,0,0,.9);
+    }
+}
