@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\Bet;
-
+use App\Models\Wallet;
 
 class Retailer extends Model
 {
@@ -39,7 +39,8 @@ class Retailer extends Model
 
         'notes',
 
-        'last_login'
+        'last_login',
+        'balance',
 
     ];
 
@@ -53,7 +54,8 @@ class Retailer extends Model
 
             'status'=>'boolean',
 
-            'last_login'=>'datetime'
+            'last_login'=>'datetime',
+            'balance' => 'decimal:2',
 
         ];
     }
@@ -65,5 +67,10 @@ class Retailer extends Model
     public function bets(): HasMany
 {
     return $this->hasMany(Bet::class);
+}
+
+public function wallet()
+{
+    return $this->hasOne(Wallet::class);
 }
 }

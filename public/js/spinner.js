@@ -5,7 +5,7 @@ $(function () {
     let isSpinning = false;
     let currentRotation = 0;
 
-    const numbers = [0,1,2,3,4,5,6,7,8,9];
+    const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     const canvas = document.getElementById("spinWheel");
     const ctx = canvas ? canvas.getContext("2d") : null;
 
@@ -184,6 +184,7 @@ $(function () {
         $.ajax({
             url: "/retailer/spinner/place-bet",
             type: "POST",
+            timeout: 10000,
             data: {
                 _token: $('meta[name="csrf-token"]').attr("content"),
                 bets: bets
@@ -192,25 +193,31 @@ $(function () {
                 $("#placeBetBtn").prop("disabled", true).html("PLACING...");
             },
             success: function (response) {
-                if (response.success) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Bet Placed",
-                        text: response.message,
-                        timer: 1200,
-                        showConfirmButton: false
-                    });
-
-                    startSpin();
-                }
+                Swal.fire({
+                    icon: response.success ? "success" : "error",
+                    title: response.success ? "Bet Placed" : "Error",
+                    text: response.message
+                });
             },
-            error: function () {
+            error: function (xhr) {
+                console.log(xhr.responseJSON);
+
+                let msg = "Bet not placed.";
+
+                if (xhr.responseJSON?.message) {
+                    msg = xhr.responseJSON.message;
+                }
+
+                if (xhr.responseJSON?.errors) {
+                    msg = Object.values(xhr.responseJSON.errors).flat().join("\n");
+                }
                 Swal.fire({
                     icon: "error",
                     title: "Error",
-                    text: "Bet not placed. Please try again."
+                    text: xhr.responseJSON?.message || xhr.statusText || "Bet not placed."
                 });
-
+            },
+            complete: function () {
                 $("#placeBetBtn").prop("disabled", false).html("PLACE BET");
             }
         });

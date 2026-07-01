@@ -37,8 +37,10 @@
         </div>
     </div>
 
-    <button class="place-bet-btn" id="placeBetBtn">
-        PLACE BET
-    </button>
+  <button
+    class="place-bet-btn"
+    id="placeBetBtn">
+    PLACE BET
+</button>
 
 </div>
