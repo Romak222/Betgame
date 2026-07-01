@@ -24,30 +24,21 @@ class SpinnerController extends Controller
             ->latest()
             ->first();
 
-        return view(
-            'retailer.spinner.index',
-            compact(
-                'game',
-                'round'
-            )
-        );
+        return view('retailer.spinner.index', compact('game', 'round'));
     }
 
-
     public function placeBet(Request $request)
-{
-    $request->validate([
-        'bets' => 'required|array',
-        'bets.*.number' => 'required|integer|min:0|max:9',
-        'bets.*.amount' => 'required|numeric|min:1',
-    ]);
+    {
+        $request->validate([
+            'bets' => 'required|array',
+            'bets.*.number' => 'required|integer|min:0|max:9',
+            'bets.*.amount' => 'required|numeric|min:1',
+        ]);
 
-    return response()->json([
-        'success' => true,
-        'message' => 'Bet placed successfully',
-        'bets' => $request->bets,
-    ]);
-}
-
-
+        return response()->json([
+            'success' => true,
+            'message' => 'Bet placed successfully',
+            'bets' => $request->bets,
+        ]);
+    }
 }
