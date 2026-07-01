@@ -1,10 +1,10 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Retailer\DashboardController;
 use App\Http\Controllers\Retailer\SpinnerController;
 
-Route::middleware(['web'])
-    ->prefix('retailer')
+Route::prefix('retailer')
     ->name('retailer.')
     ->group(function () {
 
