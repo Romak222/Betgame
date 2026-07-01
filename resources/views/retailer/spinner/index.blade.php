@@ -22,8 +22,16 @@
         <div class="game-logo">INDIAN CLASSIC</div>
 
         <div class="game-info">
-            <div class="timer-box" id="roundTimer">02:00</div>
-            <div class="wallet-box">₹0.00</div>
+            <div
+                class="timer-box"
+                id="roundTimer"
+                data-end-time="{{ optional($round->end_time)->format('Y-m-d H:i:s') }}">
+                01:30
+            </div>
+
+            <div class="wallet-box" id="walletBalance">
+                ₹{{ number_format($wallet->balance ?? 0, 2) }}
+            </div>
         </div>
     </header>
 
@@ -49,5 +57,14 @@
 @endsection
 
 @push('scripts')
+<script>
+    window.spinnerConfig = {
+        roundEndTime: "{{ optional($round->end_time)->format('Y-m-d H:i:s') }}",
+        roundDurationSeconds: {{ $game->round_duration_seconds ?? 90 }},
+        placeBetUrl: "{{ route('retailer.spinner.bet') }}",
+        csrfToken: "{{ csrf_token() }}"
+    };
+</script>
+
 <script src="{{ asset('js/spinner.js') }}"></script>
 @endpush

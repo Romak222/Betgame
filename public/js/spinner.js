@@ -1,5 +1,68 @@
 $(function () {
 
+    /* ==========================================
+   LIVE ROUND COUNTDOWN
+========================================== */
+
+    startRoundTimer();
+
+    function startRoundTimer() {
+
+        if (!window.spinnerConfig) return;
+
+        const timer = $("#roundTimer");
+
+        let endTime = new Date(
+            window.spinnerConfig.roundEndTime.replace(/-/g, "/")
+        ).getTime();
+
+        function tick() {
+
+            const now = new Date().getTime();
+
+            let remaining = Math.floor((endTime - now) / 1000);
+
+            if (remaining < 0) {
+                remaining = 0;
+            }
+
+            const minutes = Math.floor(remaining / 60);
+            const seconds = remaining % 60;
+
+            timer.text(
+                String(minutes).padStart(2, "0") +
+                ":" +
+                String(seconds).padStart(2, "0")
+            );
+            if (remaining <= 10) {
+
+                timer.css({
+                    color: "#ff0000",
+                    fontWeight: "bold"
+                });
+
+            }
+
+            if (remaining <= 0) {
+
+                $("#placeBetBtn")
+                    .prop("disabled", true)
+                    .html("BET CLOSED");
+
+                clearInterval(interval);
+
+                // Next round
+                setTimeout(function () {
+                    location.reload();
+                }, 3000);
+            }
+        }
+
+        tick();
+
+        const interval = setInterval(tick, 1000);
+    }
+
     let selectedAmount = 0;
     let betQueue = {};
     let isSpinning = false;

@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\DB;
 class SpinnerService
 {
     public function __construct(
-        protected WalletService $walletService
+        protected WalletService $walletService,
+        protected RoundService $roundService
     ) {}
 
     public function getActiveGame(): Game
@@ -22,15 +23,12 @@ class SpinnerService
             ->firstOrFail();
     }
 
-    public function getOpenRound(): GameRound
-    {
-        $game = $this->getActiveGame();
+   public function getOpenRound(): GameRound
+{
+    $game = $this->getActiveGame();
 
-        return GameRound::where('game_id', $game->id)
-            ->where('status', 'OPEN')
-            ->latest()
-            ->firstOrFail();
-    }
+    return $this->roundService->getOrCreateOpenRound($game);
+}
 
     public function placeBet(Retailer $retailer, array $bets): array
     {
@@ -79,4 +77,6 @@ class SpinnerService
             ];
         });
     }
+
+
 }

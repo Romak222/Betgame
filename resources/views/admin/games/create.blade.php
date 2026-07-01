@@ -125,10 +125,15 @@
                 </div>
                 <div class="col-md-4 mb-3">
 
-                    <label>Round Duration (Minutes)</label>
+                    <label>Round Duration </label>
 
-                    <input type="number" name="round_duration" class="form-control"
-                        value="{{ old('round_duration',2) }}" min="1" required>
+                    <select name="round_duration_seconds" class="form-select" required>
+                        <option value="30">30 Seconds</option>
+                        <option value="60">1 Minute</option>
+                        <option value="90" selected>1 Minute 30 Seconds</option>
+                        <option value="120">2 Minutes</option>
+                        <option value="180">3 Minutes</option>
+                    </select>
 
                 </div>
 
