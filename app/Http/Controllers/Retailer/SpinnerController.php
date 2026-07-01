@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Retailer;
 use App\Http\Controllers\Controller;
 use App\Models\Game;
 use App\Models\GameRound;
+use Illuminate\Http\Request;
 
 class SpinnerController extends Controller
 {
@@ -32,10 +33,21 @@ class SpinnerController extends Controller
         );
     }
 
-// public function index()
-// {
-//     $game = Game::where('code', 'SPINNER')->first();
 
-//     dd($game);
-// }
+    public function placeBet(Request $request)
+{
+    $request->validate([
+        'bets' => 'required|array',
+        'bets.*.number' => 'required|integer|min:0|max:9',
+        'bets.*.amount' => 'required|numeric|min:1',
+    ]);
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Bet placed successfully',
+        'bets' => $request->bets,
+    ]);
+}
+
+
 }
